@@ -60,7 +60,7 @@ export default function Register() {
         setLoading(false);
       })
       .catch((e) => {
-        console.log("Error logging in with provider  == ", e);
+        console.log("Error registering with provider  == ", e);
       });
   };
 
