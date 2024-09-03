@@ -4,7 +4,7 @@ import { fontFamily } from "tailwindcss/defaultTheme";
 module.exports = {
   content: [
     "./src/app/**/*.{html,js,jsx}",
-    "./src/components/**/*.{html,js,jsx}",
+    "./src/components/**/*.{html,js,jsx}"
   ],
   theme: {
     extend: {
