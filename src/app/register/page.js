@@ -37,6 +37,33 @@ export default function Register() {
     }
   };
 
+  const googleAuth = async () => {
+    await pb
+      .collection("users")
+      .authWithOAuth2({ provider: "google" })
+      .then((response) => {
+        // console.log(response.meta);
+        pb.collection("users")
+          .update(response.record.id, {
+            username: response.meta.name,
+            name: response.meta.name,
+            avatarUrl: response.meta.avatarUrl,
+          })
+          .then((res) => {
+            console.log("Successfully updated profie", res);
+            toast("OAuth registration successful!");
+            router.push("/login");
+          })
+          .catch((e) => {
+            console.log("Error updating profile  == ", e);
+          });
+        setLoading(false);
+      })
+      .catch((e) => {
+        console.log("Error logging in with provider  == ", e);
+      });
+  };
+
   return (
     <main className="p-16">
       <div className="max-w-md w-full mx-auto rounded-none md:rounded-2xl p-4 md:p-8 shadow-input bg-white">
@@ -54,7 +81,8 @@ export default function Register() {
           <div className="flex flex-col space-y-4">
             <button
               className="relative group/btn flex space-x-2 items-center justify-start px-4 w-full text-black rounded-md h-10 font-medium shadow-input bg-gray-50 dark:bg-zinc-900 dark:shadow-[0px_0px_1px_1px_var(--neutral-800)]"
-              type="submit"
+              type="button"
+              onClick={googleAuth}
             >
               <IconBrandGoogle className="h-4 w-4 text-neutral-800 dark:text-neutral-300" />
               <span className="text-neutral-700 dark:text-neutral-300 text-sm">
