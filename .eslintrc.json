@@ -1,3 +1,9 @@
 {
-  "extends": "next/core-web-vitals"
+  "extends": ["next/core-web-vitals", "prettier"],
+  "ignorePatterns": ["dist", ".eslintrc.cjs", "src/components/ui/**"],
+  "rules": {
+    "indent": ["error", 2],
+    "camelcase": ["error", { "ignoreImports": true }],
+    "max-lines": ["error", { "max": 1000, "skipBlankLines": true }]
+  }
 }
