@@ -48,7 +48,7 @@ export default function Navbar({ className }) {
               <div className="flex flex-col space-y-4 text-sm">
                 <HoveredLink href="/#">Profile</HoveredLink>
                 <HoveredLink href="/#">Rewards</HoveredLink>
-                <HoveredLink href="/#">Logout</HoveredLink>
+                <HoveredLink href="/logout">Logout</HoveredLink>
               </div>
             </MenuItem>
           </>
