@@ -14,6 +14,7 @@ import Link from "next/link";
 import React from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import BottomGradient from "./bottom_gradient";
 
 export default function LoginForm({ onSubmit, children }) {
   const formSchema = z.object({
@@ -30,8 +31,15 @@ export default function LoginForm({ onSubmit, children }) {
 
   return (
     <div>
+      <Link href="/register">
+        <p className="text-neutral-600 text-sm max-w-sm mt-2 dark:text-neutral-300">
+              Don&apos;t have an account? Register{" "}
+          <span className="font-bold">here</span>
+        </p>
+      </Link>
+
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="my-8">
+        <form onSubmit={form.handleSubmit(onSubmit)} className="my-4">
           <FormField
             control={form.control}
             name="email"
@@ -66,25 +74,9 @@ export default function LoginForm({ onSubmit, children }) {
             Login &rarr;
             <BottomGradient />
           </button>
-          <Link href="/register">
-            <p className="text-neutral-600 text-sm max-w-sm mt-2 dark:text-neutral-300">
-              Don&apos; have an account? Register{" "}
-              <span className="font-bold">here</span>
-            </p>
-          </Link>
-
           {children}
         </form>
       </Form>
     </div>
   );
 }
-
-const BottomGradient = () => {
-  return (
-    <>
-      <span className="group-hover/btn:opacity-100 block transition duration-500 opacity-0 absolute h-px w-full -bottom-px inset-x-0 bg-gradient-to-r from-transparent via-cyan-500 to-transparent" />
-      <span className="group-hover/btn:opacity-100 blur-sm block transition duration-500 opacity-0 absolute h-px w-1/2 mx-auto -bottom-px inset-x-10 bg-gradient-to-r from-transparent via-indigo-500 to-transparent" />
-    </>
-  );
-};

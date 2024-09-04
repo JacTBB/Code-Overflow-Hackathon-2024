@@ -12,9 +12,10 @@ import React, { useState } from "react";
 export default function Navbar({ className }) {
   const [active, setActive] = useState("");
 
+  // TODO: Change this
   return (
     <div
-      className={cn("fixed top-10 inset-x-0 max-w-2xl mx-auto z-50", className)}
+      className={cn("fixed top-8 inset-x-0 max-w-2xl mx-auto z-50", className)}
     >
       <Menu setActive={setActive}>
         <MenuItem setActive={setActive} active={active} item="Services">
@@ -26,7 +27,7 @@ export default function Navbar({ className }) {
           </div>
         </MenuItem>
         <MenuItem setActive={setActive} active={active} item="Products">
-          <div className="  text-sm grid grid-cols-2 gap-10 p-4">
+          <div className="  text-sm grid grid-cols-2 gap-10 p-4 w-auto">
             <ProductItem
               title="Algochurn"
               href="https://algochurn.com"
