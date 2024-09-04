@@ -1,15 +1,13 @@
 "use client";
 
-import LoginForm from "@/components/loginForm";
 import BottomGradient from "@/components/bottom_gradient";
-import { pb } from "@/lib/db";
 import GoogleIcon from "@/components/google_icon";
-import HomeIcon from "@/components/home_icon";
+import LoginForm from "@/components/loginForm";
+import { pb } from "@/lib/db";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { toast } from "sonner";
-import Link from "next/link";
-
 
 export default function Login() {
   const router = useRouter();
@@ -25,7 +23,7 @@ export default function Login() {
       console.log("User logged in:", authData);
 
       toast("Logged in!");
-      router.push("/view_users");
+      router.push("/dashboard");
     } catch (err) {
       console.log(err);
       setError(err.message);
@@ -39,7 +37,7 @@ export default function Login() {
       .authWithOAuth2({ provider: "google" })
       .then((response) => {
         toast("OAuth login successful!");
-        router.push("/view_users");
+        router.push("/dashboard");
       })
       .catch((e) => {
         console.log("Error logging in with provider  == ", e);
@@ -52,9 +50,15 @@ export default function Login() {
         <h2 className="font-bold text-xl text-neutral-800 dark:text-neutral-200">
           Welcome to Financial App
         </h2>
-        <p className="text-neutral-600 text-sm max-w-sm mt-2 dark:text-neutral-300">
+        <p className="text-neutral-700 text-md font-bold underline max-w-sm mt-2 dark:text-neutral-300">
           Login
         </p>
+        <Link href="/register">
+          <p className="text-neutral-600 text-sm max-w-sm mt-2 dark:text-neutral-300">
+            Don&apos;t have an account? Register{" "}
+            <span className="font-bold">here</span>
+          </p>
+        </Link>
         {error && <p className="mb-4 text-red-500">{error}</p>}{" "}
         {/* Error message display */}
         <LoginForm onSubmit={handleSubmit}>
@@ -69,19 +73,9 @@ export default function Login() {
               <GoogleIcon />
               <BottomGradient />
             </button>
-            <Link
-              className="relative group/btn flex space-x-2 items-center justify-start px-4 w-full text-black rounded-md h-10 font-medium shadow-input bg-gray-50 dark:bg-zinc-900 dark:shadow-[0px_0px_1px_1px_var(--neutral-800)]"
-              type="button"
-              href="/"
-            >
-              <HomeIcon />
-              <BottomGradient />
-            </Link>
           </div>
         </LoginForm>
       </div>
     </main>
   );
 }
-
-// Moved this to labelinput_container.jsx under src/components

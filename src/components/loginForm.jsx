@@ -10,10 +10,10 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
-import Link from "next/link";
 import React from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+
 import BottomGradient from "./bottom_gradient";
 
 export default function LoginForm({ onSubmit, children }) {
@@ -31,13 +31,6 @@ export default function LoginForm({ onSubmit, children }) {
 
   return (
     <div>
-      <Link href="/register">
-        <p className="text-neutral-600 text-sm max-w-sm mt-2 dark:text-neutral-300">
-              Don&apos;t have an account? Register{" "}
-          <span className="font-bold">here</span>
-        </p>
-      </Link>
-
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="my-4">
           <FormField

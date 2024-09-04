@@ -1,14 +1,13 @@
 "use client";
 
-import RegisterForm from "@/components/registerForm";
 import BottomGradient from "@/components/bottom_gradient";
 import GoogleIcon from "@/components/google_icon";
-import HomeIcon from "@/components/home_icon";
+import RegisterForm from "@/components/registerForm";
 import { pb } from "@/lib/db";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { toast } from "sonner";
-import Link from "next/link";
 
 export default function Register() {
   const router = useRouter();
@@ -73,9 +72,15 @@ export default function Register() {
         <h2 className="font-bold text-xl text-neutral-800 dark:text-neutral-200">
           Welcome to Financial App
         </h2>
-        <p className="text-neutral-600 text-sm max-w-sm mt-2 dark:text-neutral-300">
+        <p className="text-neutral-700 text-md font-bold underline max-w-sm mt-2 dark:text-neutral-300">
           Register
         </p>
+        <Link href="/login">
+          <p className="text-neutral-600 text-sm max-w-sm mt-2 dark:text-neutral-300">
+            Already have an account? Login{" "}
+            <span className="font-bold">here</span>
+          </p>
+        </Link>
         {error && <p className="mb-4 text-red-500">{error}</p>}{" "}
         {/* Error message display */}
         <RegisterForm onSubmit={handleSubmit}>
@@ -90,14 +95,6 @@ export default function Register() {
               <GoogleIcon />
               <BottomGradient />
             </button>
-            <Link
-              className="relative group/btn flex space-x-2 items-center justify-start px-4 w-full text-black rounded-md h-10 font-medium shadow-input bg-gray-50 dark:bg-zinc-900 dark:shadow-[0px_0px_1px_1px_var(--neutral-800)]"
-              type="button"
-              href="/"
-            >
-              <HomeIcon />
-              <BottomGradient />
-            </Link>
           </div>
         </RegisterForm>
       </div>
