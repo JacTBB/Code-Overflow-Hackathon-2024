@@ -4,29 +4,60 @@ import {
   HoveredLink,
   Menu,
   MenuItem,
+  MenuLink,
   ProductItem,
 } from "@/components/ui/navbar-menu";
+import { pb } from "@/lib/db";
 import { cn } from "@/lib/utils";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 export default function Navbar({ className }) {
   const [active, setActive] = useState("");
+  const [loggedIn, setLoggedIn] = useState(false);
 
-  // TODO: Change this
+  useEffect(() => {
+    setLoggedIn(pb.authStore.isValid);
+  }, []);
+
   return (
-    <div
-      className={cn("fixed top-8 inset-x-0 max-w-2xl mx-auto z-50", className)}
-    >
+    <div className={cn("w-screen z-50", className)}>
       <Menu setActive={setActive}>
-        <MenuItem setActive={setActive} active={active} item="Services">
-          <div className="flex flex-col space-y-4 text-sm">
-            <HoveredLink href="/web-dev">Web Development</HoveredLink>
-            <HoveredLink href="/interface-design">Interface Design</HoveredLink>
-            <HoveredLink href="/seo">Search Engine Optimization</HoveredLink>
-            <HoveredLink href="/branding">Branding</HoveredLink>
-          </div>
-        </MenuItem>
-        <MenuItem setActive={setActive} active={active} item="Products">
+        <p className="font-bold pr-3 border-r border-r-gray-600">
+          Unnamed Financial App
+        </p>
+        <MenuLink href="/" setActive={setActive} item="Home">
+          Home
+        </MenuLink>
+        <MenuLink href="/" setActive={setActive} item="Lessons">
+          Lessons
+        </MenuLink>
+        <MenuLink href="/" setActive={setActive} item="Deals">
+          Deals
+        </MenuLink>
+        {loggedIn ? (
+          <>
+            <MenuItem setActive={setActive} active={active} item="Services">
+              <div className="flex flex-col space-y-4 text-sm">
+                <HoveredLink href="/#">Budget Tool</HoveredLink>
+                <HoveredLink href="/#">Expense Tracker</HoveredLink>
+                <HoveredLink href="/#">Shared Expenses Tracker</HoveredLink>
+                <HoveredLink href="/#">Wishlist</HoveredLink>
+              </div>
+            </MenuItem>
+            <MenuItem setActive={setActive} active={active} item="My Account">
+              <div className="flex flex-col space-y-4 text-sm">
+                <HoveredLink href="/#">Profile</HoveredLink>
+                <HoveredLink href="/#">Rewards</HoveredLink>
+                <HoveredLink href="/#">Logout</HoveredLink>
+              </div>
+            </MenuItem>
+          </>
+        ) : (
+          <MenuLink href="/login" setActive={setActive} item="Login">
+            Login
+          </MenuLink>
+        )}
+        {/* <MenuItem setActive={setActive} active={active} item="Products">
           <div className="  text-sm grid grid-cols-2 gap-10 p-4 w-auto">
             <ProductItem
               title="Algochurn"
@@ -53,15 +84,7 @@ export default function Navbar({ className }) {
               description="Respond to government RFPs, RFIs and RFQs 10x faster using AI"
             />
           </div>
-        </MenuItem>
-        <MenuItem setActive={setActive} active={active} item="Pricing">
-          <div className="flex flex-col space-y-4 text-sm">
-            <HoveredLink href="/hobby">Hobby</HoveredLink>
-            <HoveredLink href="/individual">Individual</HoveredLink>
-            <HoveredLink href="/team">Team</HoveredLink>
-            <HoveredLink href="/enterprise">Enterprise</HoveredLink>
-          </div>
-        </MenuItem>
+        </MenuItem> */}
       </Menu>
     </div>
   );
