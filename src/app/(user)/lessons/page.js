@@ -1,6 +1,5 @@
 "use client";
-
-import ErrorFallback from "@/components/errorfallback";
+import LoadingError from "@/components/loadingError";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -35,7 +34,7 @@ export default function Lessons() {
   return (
     <main className="p-16">
       {error ? (
-        <ErrorFallback />
+        <LoadingError />
       ) : isLoading ? (
         <Loading />
       ) : (

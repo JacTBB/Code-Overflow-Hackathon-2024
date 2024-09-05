@@ -2,12 +2,12 @@
 
 import { pb } from "@/lib/db";
 import { useQuery } from "@tanstack/react-query";
-import ErrorFallback from "@/components/errorfallback";
 import Loading from "@/components/loading";
+import LoadingError from "@/components/loadingError";
 
 export default function Profile() {
   const { data, isLoading, error } = useQuery({
-    queryKey: ["dashboard"],
+    queryKey: ["profile"],
     queryFn: async () => {
       try {
         const user = await pb.collection("users").getOne(pb.authStore.model.id);
@@ -31,7 +31,7 @@ export default function Profile() {
   return (
     <main className="p-16">
       {error ? (
-        <ErrorFallback />
+        <LoadingError />
       ) : isLoading ? (
         <Loading />
       ) : (

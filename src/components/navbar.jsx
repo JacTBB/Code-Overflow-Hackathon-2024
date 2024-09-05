@@ -31,8 +31,8 @@ export default function Navbar({ className }) {
         <MenuLink href="/lessons" setActive={setActive} item="Lessons">
           Lessons
         </MenuLink>
-        <MenuLink href="/" setActive={setActive} item="Deals">
-          Deals
+        <MenuLink href="/lessons/quiz" setActive={setActive} item="Deals">
+          Quizzes
         </MenuLink>
         {loggedIn ? (
           <>

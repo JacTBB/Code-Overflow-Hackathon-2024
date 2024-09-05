@@ -1,6 +1,5 @@
 "use client";
-
-import ErrorFallback from "@/components/errorfallback";
+import LoadingError from "@/components/loadingError";
 import Loading from "@/components/loading";
 import { Button } from "@/components/ui/button";
 import { pb } from "@/lib/db";
@@ -49,7 +48,7 @@ export default function Lesson({ params }) {
   return (
     <main className="p-16">
       {error ? (
-        <ErrorFallback />
+        <LoadingError />
       ) : isLoading ? (
         <Loading />
       ) : (

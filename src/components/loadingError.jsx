@@ -3,7 +3,7 @@ import HomeIcon from "./home_icon";
 import Link from "next/link";
 import BottomGradient from "./bottom_gradient";
 
-export default function ErrorFallback() {
+export default function LoadingError() {
   return (
     <div className="flex flex-col justify-center items-center h-screen">
       <OctagonX className="size-20 text-destructive-foreground mb-3" />
