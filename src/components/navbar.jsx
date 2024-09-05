@@ -39,7 +39,7 @@ export default function Navbar({ className }) {
             <MenuItem setActive={setActive} active={active} item="Services">
               <div className="flex flex-col space-y-4 text-sm">
                 <HoveredLink href="/#">Budget Tool</HoveredLink>
-                <HoveredLink href="/#">Expense Tracker</HoveredLink>
+                <HoveredLink href="/transactions">Expense Tracker</HoveredLink>
                 <HoveredLink href="/#">Shared Expenses Tracker</HoveredLink>
                 <HoveredLink href="/#">Wishlist</HoveredLink>
               </div>
