@@ -1,7 +1,7 @@
 "use client";
 
-import Loading from "@/components/ui/loading";
-import LoadingError from "@/components/ui/loadingError";
+import Loading from "@/components/loading";
+import LoadingError from "@/components/loadingError";
 import { pb } from "@/lib/db";
 import { useQuery } from "@tanstack/react-query";
 
