@@ -3,6 +3,14 @@
 import Loading from "@/components/loading";
 import LoadingError from "@/components/loadingError";
 import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { DateTimePicker } from "@/components/ui/datetime-picker";
 import {
   Form,
@@ -32,14 +40,14 @@ import {
 import { pb } from "@/lib/db";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
+import Chart from "chart.js/auto";
 import Link from "next/link";
 import React from "react";
 import { useState } from "react";
+import { Line, Pie } from "react-chartjs-2";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
-
-import TransactionCategories from "../transactionCategories/page";
 
 export default function Transactions() {
   const queryClient = useQueryClient();
@@ -105,6 +113,103 @@ export default function Transactions() {
     staleTime: 60 * 1000,
   });
 
+  const currentMonth = new Date().toLocaleString("en-US", {
+    month: "long",
+    year: "numeric",
+  });
+
+  // Filtering transactions for the current month
+  const thisMonthTransactions = data?.transactions.filter((transaction) => {
+    const transactionDate = new Date(transaction.date);
+    return (
+      transactionDate.toLocaleString("en-US", {
+        month: "long",
+        year: "numeric",
+      }) === currentMonth && transaction.amount < 0 // Only include negative transactions here
+    );
+  });
+
+  // Grouping transactions by category for this month
+  const categoryTotals = thisMonthTransactions?.reduce((acc, transaction) => {
+    const category = data.transactionCategories.find(
+      (cat) => cat.id === transaction.category,
+    )?.name;
+    if (category) {
+      acc[category] = (acc[category] || 0) + transaction.amount; // Accumulate negative amounts
+    }
+    return acc;
+  }, {});
+
+  // Prepare data for the Pie chart
+  const pieChartData = {
+    labels: categoryTotals ? Object.keys(categoryTotals) : [],
+    datasets: [
+      {
+        label: "Transaction Amounts",
+        data: categoryTotals ? Object.values(categoryTotals) : [],
+        backgroundColor: [
+          "#FF6384", // Example colors
+          "#36A2EB",
+          "#FFCE56",
+          "#FFB6C1",
+          "#6A5ACD",
+        ],
+      },
+    ],
+  };
+
+  const aggregateFinances = (transactions) => {
+    const monthlyData = {};
+
+    transactions.forEach((transaction) => {
+      const transactionDate = new Date(transaction.date);
+      const monthYear = transactionDate.toLocaleString("en-US", {
+        month: "long",
+        year: "numeric",
+      });
+
+      if (!monthlyData[monthYear]) {
+        monthlyData[monthYear] = { income: 0, expenses: 0 };
+      }
+
+      if (transaction.type === "income") {
+        monthlyData[monthYear].income += transaction.amount;
+      } else {
+        monthlyData[monthYear].expenses -= transaction.amount;
+      }
+    });
+
+    // Create arrays for the chart, and reverse them for display
+    const labels = Object.keys(monthlyData).reverse(); // Reverse the keys for the correct order
+    const incomeData = labels.map((month) => monthlyData[month].income);
+    const expensesData = labels.map((month) => monthlyData[month].expenses);
+
+    return { labels, incomeData, expensesData };
+  };
+
+  // Use the aggregate function to get data for the chart
+  const { labels, incomeData, expensesData } = aggregateFinances(
+    data?.transactions || [],
+  );
+
+  const lineChartData = {
+    labels: labels,
+    datasets: [
+      {
+        label: "Income",
+        data: incomeData,
+        borderColor: "#36A2EB",
+        backgroundColor: "rgba(54, 162, 235, 0.2)",
+      },
+      {
+        label: "Expenses",
+        data: expensesData,
+        borderColor: "#FF6384",
+        backgroundColor: "rgba(255, 99, 132, 0.2)",
+      },
+    ],
+  };
+
   const formSchema = z.object({
     name: z.string().min(3).max(50),
     amount: z.number(),
@@ -151,6 +256,43 @@ export default function Transactions() {
       ) : (
         <div>
           <h1 className="text-3xl font-bold underline mb-5">Transactions</h1>
+
+          <div className="flex">
+            <Card className="max-w-[400px] m-8">
+              <CardHeader>
+                <CardTitle>This Month&apos;s Expenditure by Category</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="max-w-[300px] max-h-[400px] mx-auto">
+                  <Pie
+                    data={pieChartData}
+                    options={{
+                      responsive: true,
+                      maintainAspectRatio: false,
+                    }}
+                  />
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card className="max-w-[400px] m-8">
+              <CardHeader>
+                <CardTitle>Income and Expenses Over the Months</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="max-w-[300px] max-h-[400px] mx-auto">
+                  <Line
+                    data={lineChartData}
+                    options={{
+                      responsive: true,
+                      maintainAspectRatio: false, // Allow manual control over the chart size
+                    }}
+                  />
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+
           <div className="mb-5">
             <Sheet open={formOpen} onOpenChange={setFormOpen}>
               <SheetTrigger asChild>
