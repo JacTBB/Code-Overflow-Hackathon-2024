@@ -18,6 +18,7 @@ export default function Profile() {
             username: user.username,
             name: user.name,
             email: user.email,
+            points: user.points,
           },
         };
       } catch (err) {
@@ -42,6 +43,7 @@ export default function Profile() {
             <p>Username: {data.user.username}</p>
             <p>Name: {data.user.name}</p>
             <p>Email: {data.user.email}</p>
+            <p>Points: {data.user.points.toString()}</p>
           </div>
         </div>
       )}

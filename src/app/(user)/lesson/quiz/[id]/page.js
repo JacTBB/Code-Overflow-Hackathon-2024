@@ -79,6 +79,15 @@ export default function Quiz({ params }) {
       username: pb.authStore.model.username,
     });
 
+    if (correct == data.quiz.questions.length) {
+      const updatedUser = await pb
+        .collection("users")
+        .getOne(pb.authStore.model.id);
+      if (!updatedUser.points) updatedUser.points = 0;
+      updatedUser.points += data.quiz.reward;
+      await pb.collection("users").update(pb.authStore.model.id, updatedUser);
+    }
+
     setCompleted(true);
     setQuizPoints(points);
     setQuizCorrect(correct);
@@ -173,6 +182,11 @@ export default function Quiz({ params }) {
                   <p>
                     Total Points: {quizPoints}/{data.quiz.points}
                   </p>
+                  {quizCorrect == data.quiz.questions.length && (
+                    <p>
+                      {data.quiz.reward} reward points has been given to you!
+                    </p>
+                  )}
                 </DialogDescription>
               </DialogHeader>
               <DialogFooter className="sm:justify-start">
