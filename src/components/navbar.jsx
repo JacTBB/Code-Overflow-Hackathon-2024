@@ -31,11 +31,11 @@ export default function Navbar({ className }) {
         <MenuLink href="/lessons" setActive={setActive} item="Lessons">
           Lessons
         </MenuLink>
-        <MenuLink href="/lessons/quiz" setActive={setActive} item="Deals">
-          Quizzes
-        </MenuLink>
         {loggedIn ? (
           <>
+            <MenuLink href="/lessons/quiz" setActive={setActive} item="Deals">
+              Quizzes
+            </MenuLink>
             <MenuItem setActive={setActive} active={active} item="Services">
               <div className="flex flex-col space-y-4 text-sm">
                 <HoveredLink href="/#">Budget Tool</HoveredLink>

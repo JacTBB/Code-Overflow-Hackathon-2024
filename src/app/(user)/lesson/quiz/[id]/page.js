@@ -40,13 +40,7 @@ export default function Quiz({ params }) {
     queryKey: ["quiz", params.id],
     queryFn: async () => {
       try {
-        const lesson = await pb.collection("lessons").getOne(params.id);
-        console.log(lesson);
-        const quiz = (
-          await pb.collection("quizzes").getList(1, 1, {
-            filter: `lesson = "${lesson.id}"`,
-          })
-        ).items[0];
+        const quiz = await pb.collection("quizzes").getOne(params.id);
         console.log(quiz);
 
         return {
@@ -94,8 +88,8 @@ export default function Quiz({ params }) {
   };
 
   const finishedRedirect = () => {
-    queryClient.invalidateQueries({ queryKey: ["lesson", params.id] });
-    router.push(`/lesson/${params.id}`);
+    queryClient.invalidateQueries({ queryKey: ["lesson", data.quiz.lesson] });
+    router.push(`/lesson/${data.quiz.lesson}`);
   };
 
   const form = useForm();

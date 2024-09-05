@@ -36,6 +36,7 @@ export default function Lesson({ params }) {
 
         return {
           lesson: lesson,
+          quiz: quiz,
           quizScores: quizScores.items,
         };
       } catch (err) {
@@ -64,7 +65,7 @@ export default function Lesson({ params }) {
 
           {loggedIn ? (
             <Button asChild>
-              <Link href={`/lesson/quiz/${data.lesson.id}`}>Start Quiz</Link>
+              <Link href={`/lesson/quiz/${data.quiz.id}`}>Start Quiz</Link>
             </Button>
           ) : (
             <Button asChild>
