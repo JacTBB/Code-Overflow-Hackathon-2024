@@ -63,9 +63,39 @@ export default function Transactions() {
         console.log(transactionCategories);
         console.log(transactions);
 
+        const getMonthName = (date) => {
+          return new Date(date).toLocaleString("en-US", {
+            month: "long",
+            year: "numeric",
+          });
+        };
+
+        const sortedTransactions = transactions.sort(
+          (a, b) => new Date(b.date) - new Date(a.date),
+        );
+
+        const groupedTransactions = sortedTransactions.reduce(
+          (acc, transaction) => {
+            const monthName = getMonthName(transaction.date);
+            if (!acc[monthName]) {
+              acc[monthName] = {
+                transactions: [],
+                count: 0,
+                totalAmount: 0,
+              };
+            }
+            acc[monthName].transactions.push(transaction);
+            acc[monthName].count += 1;
+            acc[monthName].totalAmount += transaction.amount;
+            return acc;
+          },
+          {},
+        );
+
         return {
           transactions: transactions,
           transactionCategories: transactionCategories,
+          groupedTransactions: groupedTransactions,
         };
       } catch (err) {
         console.log(err);
@@ -286,7 +316,7 @@ export default function Transactions() {
             </Button>
           </div>
           <table>
-            <tr className="min-w-[300px] pb-1 border-b border-b-gray-300">
+            <tr className="min-w-[300px] border-b border-b-gray-300">
               <th className="px-2">Name</th>
               <th className="px-2">Description</th>
               <th className="px-2">Amount</th>
@@ -294,42 +324,52 @@ export default function Transactions() {
               <th className="px-2">Type</th>
               <th className="px-2">Date</th>
             </tr>
-            {data.transactions.map((transaction, index) => (
-              <React.Fragment key={index}>
-                <tr className="min-w-[300px] pb-1 border-b border-b-gray-300">
-                  <td className="px-3">{transaction.name}</td>
-                  <td className="px-3">{transaction.description}</td>
-                  <td className="px-3">${transaction.amount.toFixed(2)}</td>
-                  <td className="px-3">
-                    {
-                      data.transactionCategories.find(
-                        (c) => c.id == transaction.category,
-                      ).name
-                    }
-                  </td>
-                  <td className="px-3">{transaction.type}</td>
-                  <td className="px-3">
-                    {new Date(transaction.date).toLocaleString("en-US", {
-                      weekday: "long",
-                      year: "numeric",
-                      month: "long",
-                      day: "numeric",
-                      hour: "2-digit",
-                      minute: "2-digit",
-                      hour12: true,
-                    })}
-                  </td>
-                  {/* <td className="pl-5 py-1">
-                    <Button
-                      variant="destructive"
-                      onClick={() => deleteTransaction(transaction.id)}
+            {Object.entries(data.groupedTransactions).map(
+              ([month, { transactions, count, totalAmount }]) => (
+                <React.Fragment key={month}>
+                  <tr>
+                    <td
+                      colSpan="6"
+                      className="pt-5 text-xl text-center border-b border-gray-300"
                     >
-                      Delete
-                    </Button>
-                  </td> */}
-                </tr>
-              </React.Fragment>
-            ))}
+                      <span className="font-bold">{month}</span> - {count}{" "}
+                      Transactions, Total: ${totalAmount.toFixed(2)}
+                    </td>
+                  </tr>
+                  {transactions.map((transaction, index) => (
+                    <tr
+                      key={index}
+                      className="min-w-[300px] pb-1 border-b border-b-gray-300"
+                    >
+                      <td className="px-3">{transaction.name}</td>
+                      <td className="px-3">{transaction.description}</td>
+                      <td className="px-3 text-right">
+                        ${transaction.amount.toFixed(2)}
+                      </td>
+                      <td className="px-3">
+                        {
+                          data.transactionCategories.find(
+                            (c) => c.id === transaction.category,
+                          )?.name
+                        }
+                      </td>
+                      <td className="px-3">{transaction.type}</td>
+                      <td className="px-3">
+                        {new Date(transaction.date).toLocaleString("en-US", {
+                          weekday: "long",
+                          year: "numeric",
+                          month: "long",
+                          day: "numeric",
+                          hour: "2-digit",
+                          minute: "2-digit",
+                          hour12: true,
+                        })}
+                      </td>
+                    </tr>
+                  ))}
+                </React.Fragment>
+              ),
+            )}
           </table>
         </div>
       )}
