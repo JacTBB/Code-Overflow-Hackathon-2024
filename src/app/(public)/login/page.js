@@ -23,7 +23,7 @@ export default function Login() {
       console.log("User logged in:", authData);
 
       toast("Logged in!");
-      router.push("/dashboard");
+      router.push("/profile");
     } catch (err) {
       console.log(err);
       setError(err.message);
@@ -37,7 +37,7 @@ export default function Login() {
       .authWithOAuth2({ provider: "google" })
       .then((response) => {
         toast("OAuth login successful!");
-        router.push("/dashboard");
+        router.push("/profile");
       })
       .catch((e) => {
         console.log("Error logging in with provider  == ", e);

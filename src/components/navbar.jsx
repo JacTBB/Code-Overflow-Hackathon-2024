@@ -28,7 +28,7 @@ export default function Navbar({ className }) {
         <MenuLink href="/" setActive={setActive} item="Home">
           Home
         </MenuLink>
-        <MenuLink href="/" setActive={setActive} item="Lessons">
+        <MenuLink href="/lessons" setActive={setActive} item="Lessons">
           Lessons
         </MenuLink>
         <MenuLink href="/" setActive={setActive} item="Deals">
@@ -46,7 +46,7 @@ export default function Navbar({ className }) {
             </MenuItem>
             <MenuItem setActive={setActive} active={active} item="My Account">
               <div className="flex flex-col space-y-4 text-sm">
-                <HoveredLink href="/#">Profile</HoveredLink>
+                <HoveredLink href="/profile">Profile</HoveredLink>
                 <HoveredLink href="/#">Rewards</HoveredLink>
                 <HoveredLink href="/logout">Logout</HoveredLink>
               </div>

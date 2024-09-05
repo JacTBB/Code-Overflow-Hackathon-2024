@@ -2,9 +2,10 @@
 
 import { pb } from "@/lib/db";
 import { useQuery } from "@tanstack/react-query";
-import { OctagonX, RefreshCw } from "lucide-react";
+import ErrorFallback from "@/components/errorfallback";
+import Loading from "@/components/loading";
 
-export default function Dashboard() {
+export default function Profile() {
   const { data, isLoading, error } = useQuery({
     queryKey: ["dashboard"],
     queryFn: async () => {
@@ -30,15 +31,9 @@ export default function Dashboard() {
   return (
     <main className="p-16">
       {error ? (
-        <div className="flex flex-col justify-center items-center h-screen">
-          <OctagonX className="size-20 text-destructive-foreground mb-3" />
-          <span className=" text-3xl font-semibold">Something went wrong.</span>
-        </div>
+        <ErrorFallback />
       ) : isLoading ? (
-        <div className="flex flex-col justify-center items-center h-screen">
-          <RefreshCw className="animate-spin size-20 text-destructive-foreground mb-3" />
-          <span className=" text-3xl font-semibold">Loading...</span>
-        </div>
+        <Loading />
       ) : (
         <div className="max-w-md w-full mx-auto rounded-none md:rounded-2xl p-4 md:p-8 shadow-input bg-white">
           <div>
