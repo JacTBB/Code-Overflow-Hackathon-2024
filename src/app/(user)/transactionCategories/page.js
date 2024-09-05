@@ -132,13 +132,13 @@ export default function TransactionCategories() {
           <table>
             {data.transactionCategories.map((transactionCategory, index) => (
               <React.Fragment key={index}>
-                <tr className="py-3">
+                <tr>
                   <td>
                     <p className="text-lg min-w-[300px] border-b border-b-gray-300">
                       {transactionCategory.name}
                     </p>
                   </td>
-                  <td className="pl-5">
+                  <td className="pl-5 py-1">
                     <Button
                       variant="destructive"
                       onClick={() => deleteCategory(transactionCategory.id)}
