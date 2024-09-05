@@ -47,7 +47,7 @@ export default function Navbar({ className }) {
             <MenuItem setActive={setActive} active={active} item="My Account">
               <div className="flex flex-col space-y-4 text-sm">
                 <HoveredLink href="/profile">Profile</HoveredLink>
-                <HoveredLink href="/#">Rewards</HoveredLink>
+                <HoveredLink href="/rewards">Rewards</HoveredLink>
                 <HoveredLink href="/logout">Logout</HoveredLink>
               </div>
             </MenuItem>
