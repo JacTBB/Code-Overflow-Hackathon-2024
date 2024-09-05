@@ -1,12 +1,13 @@
 "use client";
 
+import Loading from "@/components/ui/loading";
+import LoadingError from "@/components/ui/loadingError";
 import { pb } from "@/lib/db";
 import { useQuery } from "@tanstack/react-query";
-import { OctagonX, RefreshCw } from "lucide-react";
 
-export default function Dashboard() {
+export default function Profile() {
   const { data, isLoading, error } = useQuery({
-    queryKey: ["dashboard"],
+    queryKey: ["profile"],
     queryFn: async () => {
       try {
         const user = await pb.collection("users").getOne(pb.authStore.model.id);
@@ -30,15 +31,9 @@ export default function Dashboard() {
   return (
     <main className="p-16">
       {error ? (
-        <div className="flex flex-col justify-center items-center h-screen">
-          <OctagonX className="size-20 text-destructive-foreground mb-3" />
-          <span className=" text-3xl font-semibold">Something went wrong.</span>
-        </div>
+        <LoadingError />
       ) : isLoading ? (
-        <div className="flex flex-col justify-center items-center h-screen">
-          <RefreshCw className="animate-spin size-20 text-destructive-foreground mb-3" />
-          <span className=" text-3xl font-semibold">Loading...</span>
-        </div>
+        <Loading />
       ) : (
         <div className="max-w-md w-full mx-auto rounded-none md:rounded-2xl p-4 md:p-8 shadow-input bg-white">
           <div>

@@ -9,9 +9,10 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import Loading from "@/components/ui/loading";
+import LoadingError from "@/components/ui/loadingError";
 import { pb } from "@/lib/db";
 import { useQuery } from "@tanstack/react-query";
-import { OctagonX, RefreshCw } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 
@@ -34,15 +35,9 @@ export default function Lessons() {
   return (
     <main className="p-16">
       {error ? (
-        <div className="flex flex-col justify-center items-center h-screen">
-          <OctagonX className="size-20 text-destructive-foreground mb-3" />
-          <span className=" text-3xl font-semibold">Something went wrong.</span>
-        </div>
+        <LoadingError />
       ) : isLoading ? (
-        <div className="flex flex-col justify-center items-center h-screen">
-          <RefreshCw className="animate-spin size-20 text-destructive-foreground mb-3" />
-          <span className=" text-3xl font-semibold">Loading...</span>
-        </div>
+        <Loading />
       ) : (
         <div>
           <h1 className="text-3xl font-bold underline mb-5">Lessons</h1>
